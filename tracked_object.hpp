@@ -2,29 +2,23 @@
 #define TRACKED_OBJ_H
 
 template <typename T>
-class CounterObj
-{
-  public:
+class CounterObj {
+   public:
     static size_t objects_made;
     static size_t objects_active;
 
-    CounterObj()
-    {
+    CounterObj() {
         ++objects_made;
         ++objects_active;
     }
 
-    CounterObj(const Counter &)
-    {
+    CounterObj(const Counter &) {
         ++objects_made;
         ++objects_active;
     }
 
-  protected:
-    ~CounterObj()
-    {
-        --objects_active;
-    }
+   protected:
+    ~CounterObj() { --objects_active; }
 };
 
 template <typename T>
