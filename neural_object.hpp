@@ -13,7 +13,7 @@ namespace mnn
 class NeuralObj;
 using NeuralObj_ptr = std::shared_ptr<NeuralObj>
 
-class NeuralObj : CounterObj, std::enable_shared_from_this<NeuralObj>
+class NeuralObj : CounterObj<NeuralObj>, std::enable_shared_from_this<NeuralObj>
 {
       /* Member Variables */
     private:
