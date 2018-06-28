@@ -44,9 +44,6 @@ class HiddenNode : Node {
 
    public:
     HiddenNode() : name("hidden_") {}
-
-    virtual void add_input(NeuralObj_ptr &) override;
-    virtual void remove_input(NeuralObj_ptr &) override;
 };
 
 template <typename Activator>

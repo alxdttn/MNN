@@ -1,7 +1,14 @@
 # MNN: Modular Neural Net
+
+- [About](#About)
+    - [Nodes]
+## About
 MNN is a Neural Net construction library to allow for more fine grained control of inter-node connections and complex graphs. Currently MNN is planned to implement three degrees of control for Networks, with each higher level being able to be built from lower level pieces (and higher level pieces deconstructed into base components).
 
 MNN is written and targetted for use in C\+\+1y and higher. It is not completed (or truly even started. Consider every claim in this document a lie until this project is completed)
+
+
+
 ## Nodes:
 Nodes are the lowest level of control and will provide the basic functionality of a single cell in a Neural Net. Nodes come in three basic types:
 * Input Node: A node whose value is set at construction and remains unchanged by Forward or Backpropogation
@@ -28,6 +35,9 @@ Creations of layers pre-initialized with Nodes of a particular type can be done 
 Nets are the structures normally associated with a Neural Net. They are a collection of Nodes, Layers, and Inputs and Outputs that can be trained and used to predict results. However, Nets, just like layers and Nodes, can ALSO be made to behave like Nodes on a a super Net. This allows for some wild behavior like chaining two completely different models, and using a probablistic node to send data randomly to one or the other, or for independantly training two nets at the same time and then combining them during runtime for prediction. 
 
 For ease of access, there are a number of pre-built net options that can be made using the NetBuilder class and supplying the number of inputs, number of outputs, type, and a few other parameters. This speeds up prototyping and manually connecting all of the objects yourself.
+
+# Structure:
+<img src="https://raw.githubusercontent.com/alxdttn/MNN/master/Class_UML.svg" width="100%" height="400">
 
 # Compiling:
 TODO
