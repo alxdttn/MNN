@@ -23,15 +23,15 @@ class Node : NodeObj {
      * NeuralObj::waiting_on   :     int
      * NeuralObj::handoff      :     double
      * NeuralObj::forward_hand :    map<NeuralObj_ptr, double>
-     *
-     * NodeObj::bias           :     double
-     * NodeObj::result         :     result
-     * NodeObj::saved_result   :     saved_result
-     *
      */
+    
+    double bias;
+    double result;
+
+    double saved_result;
 
    public:
-    /*    NeuralObj::done_calcuating : bool */
+    /* NeuralObj::done_calcuating : bool */
    private:
    protected:
     virtual void recieve_backprop_handoff(NeuralObj_ptr &, double) = 0;

@@ -18,10 +18,6 @@ class NodeObj : public NeuralObj {
      * NeuralObj::waiting_on   :    int
      * NeuralObj::forward_hand :    map<NeuralObj_ptr, double>
      */
-    double bias;
-    double result;
-
-    double saved_result;
 
    public:
    private:
