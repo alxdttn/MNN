@@ -15,9 +15,9 @@ namespace mnn
 template <typename Activator = Sigmoid>
 class Node : NodeObj
 {
-    private:
-    protected:
-        /*
+  private:
+  protected:
+    /*
         * NeuralObj::name         :     string
         * NeuralObj::inputs       :     NeuralObj_ptr[]
         * NeuralObj::weights      :     double[]
@@ -31,27 +31,28 @@ class Node : NodeObj
         * NodeObj::saved_result   :     saved_result
         */
 
-    public:
-        /* NeuralObj::done_calcuating : bool */
-    private:
-    protected:
-        virtual void recieve_backprop_handoff(NeuralObj_ptr&, double) = 0;
+  public:
+    /* NeuralObj::done_calcuating : bool */
+  private:
+  protected:
+    virtual void recieve_backprop_handoff(NeuralObj_ptr &, double) = 0;
 
-        virtual void request_forwardprop_handoff(NeuralObj_ptr&) override;
-        virtual void give_forwardprop_handoff(NeuralObj_ptr&, double) = 0;
+    virtual void request_forwardprop_handoff(NeuralObj_ptr &) override;
+    virtual void give_forwardprop_handoff(NeuralObj_ptr &, double) = 0;
 
-        virtual double calculate_dE_dO() = 0;
+    virtual double calculate_dE_dO() = 0;
 
-    public:
-        Node(){
-            name += "node" + to_string(objects_made);
-        }
+  public:
+    Node()
+    {
+        name += "node" + to_string(objects_made);
+    }
 
-        virtual void add_input(NeuralObj_ptr&) override;
-        virtual void remove_input(NeuralObj_ptr&) override;
+    virtual void add_input(NeuralObj_ptr &) override;
+    virtual void remove_input(NeuralObj_ptr &) override;
 
-        virtual void calculate() override;
-        virtual void update(double) override;
+    virtual void calculate() override;
+    virtual void update(double) override;
 };
 
 template <typename Activator = Sigmoid>
@@ -108,9 +109,8 @@ void Node<Activator>::calculate()
             result += get_responce(inputs[i]) * weights[i];
         }
         ++i;
-
     }
-    for(; i < inputs.size(); ++i)
+    for (; i < inputs.size(); ++i)
     {
         if (!inputs[i]->done_calculating && !is_loop_flag[i])
         {
@@ -129,16 +129,18 @@ void Node<Activator>::calculate()
 }
 
 template <typename Activator = Sigmoid>
-void Node<Activator>::update(double epsilon){
+void Node<Activator>::update(double epsilon)
+{
     double dE_dO = calculate_dE_dO();
 
     double dO_dN = Activator::Df_f(result);
-    for (size_t i = 0; i < inputs.size(); ++i){
+    for (size_t i = 0; i < inputs.size(); ++i)
+    {
         inputs[i]->request_forwardprop_handoff(shared_from_this());
         double dN_dWi = get_responce(inputs[i]);
-        double delta  = dE_dO*dO_dN;
-        inputs[i]->recieve_backprop_handoff(delta*weights[i]);
-        weights[i] -= epsilon*delta*dN_dWi;
+        double delta = dE_dO * dO_dN;
+        inputs[i]->recieve_backprop_handoff(delta * weights[i]);
+        weights[i] -= epsilon * delta * dN_dWi;
     }
     done_calculating = false;
 }
