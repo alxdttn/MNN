@@ -37,7 +37,7 @@ Nets are the structures normally associated with a Neural Net. They are a collec
 For ease of access, there are a number of pre-built net options that can be made using the NetBuilder class and supplying the number of inputs, number of outputs, type, and a few other parameters. This speeds up prototyping and manually connecting all of the objects yourself.
 
 # Structure:
-<img src="https://raw.githubusercontent.com/alxdttn/MNN/master/Class_UML.svg" width="100%" height="400">
+<img src="/Class_UML.svg" width="100%" height="400">
 
 # Compiling:
 TODO
