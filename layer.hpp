@@ -10,9 +10,6 @@ namespace mnn {
 class Layer : NeuralObj {
    private:
     vector<NeuralObj_ptr> children;
-    class {  // Interfacer Anonymous Class
-        /* TODO */
-    } input, output;
 
    protected:
     /*
@@ -38,7 +35,7 @@ class Layer : NeuralObj {
     }
 
    public:
-    NeuralObj() : is_waiting(false), waiting_on(0), done_calculating(false) {}
+    Layer() : {}
 
     virtual void add_input(NeuralObj_ptr &) override;
     virtual void remove_input(NeuralObj_ptr &) override;
@@ -47,26 +44,20 @@ class Layer : NeuralObj {
     virtual void update(double) override;
 };
 
-void Layer::recieve_backprop_handoff(NeuralObj_ptr &, double){
-    return; 
-}
-void Layer::request_forwardprop_handoff(NeuralObj_ptr &){
-    return; 
-}
-void Layer::give_forwardprop_handoff(NeuralObj_ptr &, double){
-    return; 
-}
-void Layer::add_input(NeuralObj_ptr &){
-    return; 
-}
-void Layer::remove_input(NeuralObj_ptr &){
-    return; 
-}
-void Layer::calculate(){
-    return; 
-}
-void Layer::update(double){
-    return; 
-}
+void Layer::recieve_backprop_handoff(NeuralObj_ptr &n_ptr, double r) { 
+    vector<double> node_multiplier = node_map[n_ptr];
+    int i = 0;
+    for_each(children.begin(), children.end(), [&](auto n){
+        n->recieve_backprop_handoff(shared_from_this(), r*node_multiplier[i]);
+        ++i;
+    }
+ }
+ 
+void Layer::request_forwardprop_handoff(NeuralObj_ptr &) { return; }
+void Layer::give_forwardprop_handoff(NeuralObj_ptr &, double) { return; }
+void Layer::add_input(NeuralObj_ptr &) { return; }
+void Layer::remove_input(NeuralObj_ptr &) { return; }
+void Layer::calculate() { return; }
+void Layer::update(double) { return; }
 
 }  // namespace mnn
