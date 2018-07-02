@@ -42,6 +42,11 @@ class Node : NodeObj {
     virtual double calculate_dE_dO() = 0;
     virtual double get_responce(NeuralObj_ptr) = 0;
 
+    //Does nothing for the case of nodes
+    virtual void connect(NeuralObj_ptr &) override {
+        return;
+    }
+
    public:
     Node() { name += "node" + to_string(objects_made); }
 
@@ -54,7 +59,7 @@ class Node : NodeObj {
 
 template <typename Activator = Sigmoid>
 void Node<Activator>::request_forwardprop_handoff(NeuralObj_ptr n_ptr) {
-    n_ptr->give_forwardprop_handoff(this.result);
+    n_ptr->give_forwardprop_handoff(shared_from_this(), this.result);
 }
 
 template <typename Activator = Sigmoid>
@@ -63,6 +68,7 @@ void Node<Activator>::add_input(NeuralObj_ptr node) {
     inputs.push_back(node);
     weights.push_back(get_rand_weight(0, 0.5));
     is_loop_flag.push_back(false);
+    node->connect(std::shared_from_this());
 }
 
 template <typename Activator = Sigmoid>
@@ -94,7 +100,7 @@ void Node<Activator>::calculate() {
         i = waiting_on;
         result = saved_result;
         if (!NET_PARAMS.first_run) {
-            inputs[i]->request_forwardprop_handoff(shared_from_this());
+            inputs[i]->request_forwardprop_handoff(std::shared_from_this());
             result += get_responce(inputs[i]) * weights[i];
         }
         ++i;
@@ -107,7 +113,7 @@ void Node<Activator>::calculate() {
             inputs[i]->calculate();
             waiting = false;
         }
-        inputs[i]->request_forwardprop_handoff(shared_from_this());
+        inputs[i]->request_forwardprop_handoff(std::shared_from_this());
         result += get_responce(inputs[i]) * weights[i];
     }
     result += bias;
@@ -121,7 +127,7 @@ void Node<Activator>::update(double epsilon) {
 
     double dO_dN = Activator::Df_f(result);
     for (size_t i = 0; i < inputs.size(); ++i) {
-        inputs[i]->request_forwardprop_handoff(shared_from_this());
+        inputs[i]->request_forwardprop_handoff(std::shared_from_this());
         double dN_dWi = get_responce(inputs[i]);
         double delta = dE_dO * dO_dN;
         inputs[i]->recieve_backprop_handoff(delta * weights[i]);

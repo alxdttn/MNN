@@ -25,6 +25,7 @@ class NodeObj : public NeuralObj {
     virtual void recieve_backprop_handoff(NeuralObj_ptr &, double) = 0;
     virtual void request_forwardprop_handoff(NeuralObj_ptr &) = 0;
     virtual void give_forwardprop_handoff(NeuralObj_ptr &, double) = 0;
+    virtual void connect(NeuralObj_ptr &) = 0;
 
    public:
     NodeObj() : bias(get_rand_weight(0., 0.5)), result(0) {}

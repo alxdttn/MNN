@@ -44,6 +44,9 @@ class NeuralObj : CounterObj<NeuralObj>,
         return forward_handoff_map[n];
     }
 
+    //Called at the end of add_input on the added object, passing shared_ptr<this>
+    virtual void connect(NeuralObj_ptr &) = 0;
+
    public:
     NeuralObj() : is_waiting(false), waiting_on(0), done_calculating(false) {}
 
